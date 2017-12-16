@@ -96,7 +96,3 @@ define( 'WP_REDIS_CLUSTER', [
 ] );
 ```
 
-## Maintainers
-[@onnimonni](https://github.com/onnimonni)
-
-[@villepietarinen](https://github.com/villepietarinen)

@@ -9,6 +9,10 @@
             "name": "Till Krüss",
             "homepage": "https://till.kruss.me/",
             "role": "Developer"
+        },
+        {
+            "name": "Léo Colombaro",
+            "homepage": "https://colombaro.fr/"
         }
     ],
     "require": {
