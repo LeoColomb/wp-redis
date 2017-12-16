@@ -17,6 +17,6 @@
     ],
     "require": {
         "composer/installers": "^1.0",
-        "leocolomb/redis-cache": "^2.3"
+        "leocolomb/redis-cache": "^2.4"
     }
 }
