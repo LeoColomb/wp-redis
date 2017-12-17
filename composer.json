@@ -1,6 +1,6 @@
 {
-    "name": "leocolomb/wp-redis-dropin",
-    "description": "A persistent object cache backend for WordPress powered by Redis. Supports Predis, PhpRedis, HHVM, replication and clustering.",
+    "name": "leocolomb/wp-redis",
+    "description": "A persistent object cache backend for WordPress powered by Redis.",
     "homepage": "https://github.com/leocolomb/redis-cache",
     "license": "GPL-3.0+",
     "authors": [
