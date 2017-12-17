@@ -26,7 +26,9 @@
         ]
     },
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "composer/installers": "^1.0",
+        "koodimonni/composer-dropin-installer": "*",
     },
     "suggest": {
         "predis/predis": "Using a PHP-Redis interface",
