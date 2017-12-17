@@ -1,22 +1,35 @@
 {
     "name": "leocolomb/wp-redis-dropin",
     "description": "A persistent object cache backend for WordPress powered by Redis. Supports Predis, PhpRedis, HHVM, replication and clustering.",
-    "homepage": "https://github.com/LeoColomb/wp-redis-dropin",
-    "type": "wordpress-dropin",
+    "homepage": "https://github.com/leocolomb/redis-cache",
     "license": "GPL-3.0+",
     "authors": [
         {
             "name": "Till Krüss",
-            "homepage": "https://till.kruss.me/",
-            "role": "Developer"
+            "homepage": "https://till.im/"
         },
         {
             "name": "Léo Colombaro",
             "homepage": "https://colombaro.fr/"
         }
     ],
+    "keywords": [
+        "cache-object",
+        "redis"
+    ],
+    "support": {
+        "issues": "https://github.com/leocolomb/redis-cache/issues"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
     "require": {
-        "composer/installers": "^1.0",
-        "leocolomb/redis-cache": "^2.4"
+        "php": ">=5.4.0"
+    },
+    "suggest": {
+        "predis/predis": "Using a PHP-Redis interface",
+        "ext-redis": "Using a native-Redis interface"
     }
 }
