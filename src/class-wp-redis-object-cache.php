@@ -197,7 +197,7 @@ class WP_Redis_Object_Cache
 
                 // Load bundled Predis library
                 if (! class_exists('Predis\Client')) {
-                    include_once __DIR__ . '../vendor/autoload.php';
+                    require_once dirname(__DIR__) . '/vendor/autoload.php';
                     Predis\Autoloader::register();
                 }
 

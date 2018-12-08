@@ -13,7 +13,7 @@ class WP_Redis_Object_Cache_CLI_Commands extends WP_CLI_Command
     public function status()
     {
 
-        $plugin = $GLOBALS[ 'wp_object_cache' ];
+        $plugin = $GLOBALS['wp_object_cache'];
         $status = $plugin->get_status();
         $client = $plugin->get_redis_client_name();
 
@@ -30,10 +30,10 @@ class WP_Redis_Object_Cache_CLI_Commands extends WP_CLI_Command
                 break;
         }
 
-        WP_CLI::line('Status: ' . $status);
+        WP_CLI::line("Status: $status");
 
         if (! is_null($client)) {
-            WP_CLI::line('Client: ' . $client);
+            WP_CLI::line("Client: $client");
         }
     }
 }
