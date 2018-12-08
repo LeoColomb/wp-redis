@@ -1,18 +1,29 @@
 # Redis Object Cache for WordPress
 
-A persistent object cache backend powered by Redis. Supports [Predis](https://github.com/nrk/predis/), [PhpRedis (PECL)](https://github.com/phpredis/phpredis), replication, clustering and [WP-CLI](http://wp-cli.org/).
+> A persistent object cache backend powered by Redis. Supports [Predis](https://github.com/nrk/predis/), [PhpRedis (PECL)](https://github.com/phpredis/phpredis), replication, clustering and [WP-CLI](http://wp-cli.org/).
 
-Forked from 
-* Eric Mann's and Erick Hitter's [Redis Object Cache](https://github.com/ericmann/Redis-Object-Cache).
-* Till Krüss's [Redis Cache](https://github.com/tillkruss/redis-cache).
+[![Build Status](https://travis-ci.com/LeoColomb/wp-redis.svg?branch=master)](https://travis-ci.com/LeoColomb/wp-redis)
 
 
 ## Installation
 
-```
-$ composer require leocolomb/wp-redis-dropin
-```
+* Prepare your Composer file
+  ```json
+  {
+    "extra": {
+      "dropin-paths": {
+        "web/app/": [
+          "package:leocolomb/wp-redis:dropins/object-cache.php"
+        ]
+      }
+    }
+  }
+  ```
 
+* Require the package in your Composer-managed WordPress instance
+  ```bash
+  $ composer require leocolomb/wp-redis
+  ```
 
 ## Connection Parameters
 
@@ -85,18 +96,18 @@ For authentication use the `WP_REDIS_PASSWORD` constant.
 ### Master-Slave Replication
 
 ```php
-define( 'WP_REDIS_SERVERS', [
+define('WP_REDIS_SERVERS', [
     'tcp://127.0.0.1:6379?database=15&alias=master',
     'tcp://127.0.0.2:6379?database=15&alias=slave-01',
-] );
+]);
 ```
 
 ### Clustering via Client-side Sharding
 
 ```php
-define( 'WP_REDIS_CLUSTER', [
+define('WP_REDIS_CLUSTER', [
     'tcp://127.0.0.1:6379?database=15&alias=node-01',
     'tcp://127.0.0.2:6379?database=15&alias=node-02',
-] );
+]);
 ```
 
