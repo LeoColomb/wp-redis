@@ -25,64 +25,34 @@
   $ composer require leocolomb/wp-redis
   ```
 
-## Connection Parameters
-
-By default the object cache drop-in will connect to Redis over TCP at `127.0.0.1:6379` and select database `0`.
-
-To adjust the connection parameters, define any of the following constants in your `wp-config.php` file.
-
-* `WP_REDIS_CLIENT` (default: _not set_)
-
-  Specifies the client used to communicate with Redis. Supports `pecl` and `predis`.
-
-* `WP_REDIS_SCHEME` (default: `tcp`)
-
-  Specifies the protocol used to communicate with an instance of Redis. Internally the client uses the connection class associated to the specified connection scheme. Supports `tcp` (TCP/IP), `unix` (UNIX domain sockets), `tls` (transport layer security) or `http` (HTTP protocol through Webdis).
-
-* `WP_REDIS_HOST` (default: `127.0.0.1`)
-
-  IP or hostname of the target server. This is ignored when connecting to Redis using UNIX domain sockets.
-
-* `WP_REDIS_PORT` (default: `6379`)
-
-  TCP/IP port of the target server. This is ignored when connecting to Redis using UNIX domain sockets.
-
-* `WP_REDIS_PATH` (default: _not set_)
-
-  Path of the UNIX domain socket file used when connecting to Redis using UNIX domain sockets.
-
-* `WP_REDIS_DATABASE` (default: `0`)
-
-  Accepts a numeric value that is used to automatically select a logical database with the `SELECT` command.
-
-* `WP_REDIS_PASSWORD` (default: _not set_)
-
-  Accepts a value used to authenticate with a Redis server protected by password with the `AUTH` command.
-
-
-## Configuration Parameters
+## Configuration
 
 To adjust the configuration, define any of the following constants in your `wp-config.php` file.
 
-* `WP_CACHE_KEY_SALT` (default: not set)
+### Connection
 
-  Set the prefix for all cache keys. Useful in setups where multiple installs share a common `wp-config.php` or `$table_prefix`, to guarantee uniqueness of cache keys.
+By default the object cache drop-in will connect to Redis over TCP at `127.0.0.1:6379` and select database `0`.
 
-* `WP_REDIS_MAXTTL` (default: _not set_)
+Constant name|Default value|Description
+--|--|--
+`WP_REDIS_CLIENT`|_not set_|Specifies the client used to communicate with Redis. Supports `pecl` and `predis`.
+`WP_REDIS_SCHEME`|`tcp`|Specifies the protocol used to communicate with an instance of Redis. Internally the client uses the connection class associated to the specified connection scheme. Supports `tcp` (TCP/IP), `unix` (UNIX domain sockets), `tls` (transport layer security) or `http` (HTTP protocol through Webdis).
+`WP_REDIS_HOST`|`127.0.0.1`|IP or hostname of the target server. This is ignored when connecting to Redis using UNIX domain sockets.
+`WP_REDIS_PORT`|`6379`|TCP/IP port of the target server. This is ignored when connecting to Redis using UNIX domain sockets.
+`WP_REDIS_PATH`| _not set_|Path of the UNIX domain socket file used when connecting to Redis using UNIX domain sockets.
+`WP_REDIS_DATABASE`|`0`|Accepts a numeric value that is used to automatically select a logical database with the `SELECT` command.
+`WP_REDIS_PASSWORD`|_not set_|Accepts a value used to authenticate with a Redis server protected by password with the `AUTH` command.
 
-  Set maximum time-to-live (in seconds) for cache keys with an expiration time of `0`.
 
-* `WP_REDIS_GLOBAL_GROUPS` (default: `['blog-details', 'blog-id-cache', 'blog-lookup', 'global-posts', 'networks', 'rss', 'sites', 'site-details', 'site-lookup', 'site-options', 'site-transient', 'users', 'useremail', 'userlogins', 'usermeta', 'user_meta', 'userslugs']`)
+### Parameters
 
-  Set the list of network-wide cache groups that should not be prefixed with the blog-id _(Multisite only)_.
-
-* `WP_REDIS_IGNORED_GROUPS` (default: `['counts', 'plugins']`)
-
-  Set the cache groups that should not be cached in Redis.
-
-* `WP_REDIS_IGBINARY` (default: _not set_)
-
-  Set to `true` to enable the [igbinary](https://github.com/igbinary/igbinary) serializer.
+Constant name|Default value|Description
+--|--|--
+`WP_CACHE_KEY_SALT`|_not set_|Set the prefix for all cache keys. Useful in setups where multiple installs share a common `wp-config.php` or `$table_prefix`, to guarantee uniqueness of cache keys.
+`WP_REDIS_MAXTTL`|_not set_|Set maximum time-to-live (in seconds) for cache keys with an expiration time of `0`.
+`WP_REDIS_GLOBAL_GROUPS`|`['blog-details', 'blog-id-cache', 'blog-lookup', 'global-posts', 'networks', 'rss', 'sites', 'site-details', 'site-lookup', 'site-options', 'site-transient', 'users', 'useremail', 'userlogins', 'usermeta', 'user_meta', 'userslugs']`|Set the list of network-wide cache groups that should not be prefixed with the blog-id _(Multisite only)_.
+`WP_REDIS_IGNORED_GROUPS`|`['counts', 'plugins']`|Set the cache groups that should not be cached in Redis.
+`WP_REDIS_IGBINARY`|_not set_|Set to `true` to enable the [igbinary](https://github.com/igbinary/igbinary) serializer.
 
 
 ## Replication & Clustering
@@ -111,3 +81,9 @@ define('WP_REDIS_CLUSTER', [
 ]);
 ```
 
+## License
+
+GPL-3.0 © [Léo Colombaro](https://colombaro.fr)
+
+* Eric Mann and Erick Hitter for [Redis Object Cache](https://github.com/ericmann/Redis-Object-Cache)
+* Till Krüss for [tillkruss/redis-cache](https://github.com/tillkruss/redis-cache)
