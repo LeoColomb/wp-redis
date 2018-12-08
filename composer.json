@@ -16,8 +16,10 @@
     ],
     "keywords": [
         "wordpress-dropin",
+        "wordpress-cache",
         "cache-object",
-        "redis"
+        "redis",
+        "wordpress"
     ],
     "support": {
         "issues": "https://github.com/LeoColomb/wp-redis/issues"
