@@ -456,7 +456,7 @@ class WP_Redis_Object_Cache
      *
      * @param  int|string $key   What the contents in the cache are called.
      * @param  string     $group Optional. Where the cache contents are grouped. Default 'default'.
-     * @param  string     $force Optional. Unused. Whether to force a refetch rather than relying on the local
+     * @param  string|bool $force Optional. Unused. Whether to force a refetch rather than relying on the local
      *                           cache. Default false.
      * @param  bool       $found Optional. Whether the key was found in the cache (passed by reference).
      *                           Disambiguates a return of false, a storable value. Default null.
@@ -732,16 +732,12 @@ class WP_Redis_Object_Cache
      * When requesting multiple keys, those not found in cache are assigned the value null upon return.
      * Expected value in this case is false, so we convert
      *
-     * @param  string $value Value to possibly convert
+     * @param  string|null $value Value to possibly convert
      * @return string          Converted value
      */
     protected function filter_redis_get_multi($value)
     {
-        if (is_null($value)) {
-            $value = false;
-        }
-
-        return $value;
+        return $value ?? false;
     }
 
     /**
@@ -790,11 +786,7 @@ class WP_Redis_Object_Cache
     {
         $derived_key = $this->build_key($key, $group);
 
-        if (isset($this->cache[$derived_key])) {
-            return $this->cache[$derived_key];
-        }
-
-        return false;
+        return $this->cache[$derived_key] ?? false;
     }
 
     /**
@@ -976,13 +968,13 @@ class WP_Redis_Object_Cache
                 // or else fall through
             case 'a':
             case 'O':
-                return (bool) preg_match("/^{$token}:[0-9]+:/s", $data);
+                return (bool) preg_match("/^{$token}:\d+:/s", $data);
             case 'b':
             case 'i':
             case 'd':
                 $end = $strict ? '$' : '';
 
-                return (bool) preg_match("/^{$token}:[0-9.E-]+;$end/", $data);
+                return (bool) preg_match("/^{$token}:[\d.E-]+;$end/", $data);
         }
 
         return false;
