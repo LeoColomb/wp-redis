@@ -137,10 +137,10 @@ class WP_Redis_Object_Cache
             'port' => 6379
         ];
 
-        foreach (array( 'scheme', 'host', 'port', 'path', 'password', 'database' ) as $setting) {
+        foreach (['scheme', 'host', 'port', 'path', 'password', 'database'] as $setting) {
             $constant = sprintf('WP_REDIS_%s', strtoupper($setting));
             if (defined($constant)) {
-                $parameters[ $setting ] = constant($constant);
+                $parameters[$setting] = constant($constant);
             }
         }
 
@@ -155,25 +155,12 @@ class WP_Redis_Object_Cache
         $client = defined('WP_REDIS_CLIENT') ? WP_REDIS_CLIENT : null;
 
         if (class_exists('Redis') && strcasecmp('predis', $client) !== 0) {
-            $client = defined('HHVM_VERSION') ? 'hhvm' : 'pecl';
+            $client = 'pecl';
         } else {
             $client = 'predis';
         }
 
         try {
-            if (strcasecmp('hhvm', $client) === 0) {
-                $this->redis_client = sprintf('HHVM Extension (v%s)', HHVM_VERSION);
-                $this->redis = new Redis();
-
-                // Adjust host and port, if the scheme is `unix`
-                if (strcasecmp('unix', $parameters[ 'scheme' ]) === 0) {
-                    $parameters[ 'host' ] = 'unix://' . $parameters[ 'path' ];
-                    $parameters[ 'port' ] = 0;
-                }
-
-                $this->redis->connect($parameters[ 'host' ], $parameters[ 'port' ]);
-            }
-
             if (strcasecmp('pecl', $client) === 0) {
                 $this->redis_client = sprintf('PhpRedis (v%s)', phpversion('redis'));
 
@@ -184,29 +171,27 @@ class WP_Redis_Object_Cache
                 } else {
                     $this->redis = new Redis();
 
-                    if (strcasecmp('unix', $parameters[ 'scheme' ]) === 0) {
-                        $this->redis->connect($parameters[ 'path' ]);
+                    if (strcasecmp('unix', $parameters['scheme']) === 0) {
+                        $this->redis->connect($parameters['path']);
                     } else {
-                        $this->redis->connect($parameters[ 'host' ], $parameters[ 'port' ]);
+                        $this->redis->connect($parameters['host'], $parameters['port']);
                     }
                 }
-            }
 
-            if (strcasecmp('pecl', $client) === 0 || strcasecmp('hhvm', $client) === 0) {
-                if (isset($parameters[ 'password' ])) {
-                    $this->redis->auth($parameters[ 'password' ]);
+                if (isset($parameters['password'])) {
+                    $this->redis->auth($parameters['password']);
                 }
 
-                if (isset($parameters[ 'database' ])) {
-                    $this->redis->select($parameters[ 'database' ]);
+                if (isset($parameters['database'])) {
+                    $this->redis->select($parameters['database']);
                 }
             }
 
             if (strcasecmp('predis', $client) === 0) {
                 $this->redis_client = 'Predis';
 
-                // Require PHP 5.4 or greater
-                if (version_compare(PHP_VERSION, '5.4.0', '<')) {
+                // Require PHP 5.6 or greater
+                if (version_compare(PHP_VERSION, '5.6.0', '<')) {
                     throw new Exception;
                 }
 
@@ -216,25 +201,25 @@ class WP_Redis_Object_Cache
                     Predis\Autoloader::register();
                 }
 
-                $options = array();
+                $options = [];
 
                 if (defined('WP_REDIS_SHARDS')) {
                     $parameters = WP_REDIS_SHARDS;
                 } elseif (defined('WP_REDIS_SENTINEL')) {
                     $parameters = WP_REDIS_SERVERS;
-                    $options[ 'replication' ] = 'sentinel';
-                    $options[ 'service' ] = WP_REDIS_SENTINEL;
+                    $options['replication'] = 'sentinel';
+                    $options['service'] = WP_REDIS_SENTINEL;
                 } elseif (defined('WP_REDIS_SERVERS')) {
                     $parameters = WP_REDIS_SERVERS;
-                    $options[ 'replication' ] = true;
+                    $options['replication'] = true;
                 } elseif (defined('WP_REDIS_CLUSTER')) {
                     $parameters = WP_REDIS_CLUSTER;
-                    $options[ 'cluster' ] = 'redis';
+                    $options['cluster'] = 'redis';
                 }
 
-                foreach (array( 'WP_REDIS_SERVERS', 'WP_REDIS_SHARDS', 'WP_REDIS_CLUSTER' ) as $constant) {
+                foreach (['WP_REDIS_SERVERS', 'WP_REDIS_SHARDS', 'WP_REDIS_CLUSTER'] as $constant) {
                     if (defined('WP_REDIS_PASSWORD') && defined($constant)) {
-                        $options[ 'parameters' ][ 'password' ] = WP_REDIS_PASSWORD;
+                        $options['parameters']['password'] = WP_REDIS_PASSWORD;
                     }
                 }
 
@@ -261,10 +246,10 @@ class WP_Redis_Object_Cache
 
         // Assign global and blog prefixes for use with keys
         if (function_exists('is_multisite')) {
-            $this->multisite   = is_multisite();
+            $this->multisite = is_multisite();
         }
 
-        $this->global_prefix = ( $this->multisite || defined('CUSTOM_USER_TABLE') && defined('CUSTOM_USER_META_TABLE') ) ? '' : $table_prefix;
+        $this->global_prefix = ($this->multisite || defined('CUSTOM_USER_TABLE') && defined('CUSTOM_USER_META_TABLE')) ? '' : $table_prefix;
         $this->blog_prefix = $this->multisite ? get_current_blog_id() : $table_prefix;
     }
 
@@ -368,7 +353,7 @@ class WP_Redis_Object_Cache
             }
         }
 
-        $exists = isset($this->cache[ $derived_key ]);
+        $exists = isset($this->cache[$derived_key]);
 
         if ($add == $exists) {
             return false;
@@ -398,8 +383,8 @@ class WP_Redis_Object_Cache
         $result = false;
         $derived_key = $this->build_key($key, $group);
 
-        if (isset($this->cache[ $derived_key ])) {
-            unset($this->cache[ $derived_key ]);
+        if (isset($this->cache[$derived_key])) {
+            unset($this->cache[$derived_key]);
             $result = true;
         }
 
@@ -424,7 +409,7 @@ class WP_Redis_Object_Cache
     public function flush()
     {
         $result = false;
-        $this->cache = array();
+        $this->cache = [];
 
         if ($this->redis_status()) {
             $salt = defined('WP_CACHE_KEY_SALT') ? trim(WP_CACHE_KEY_SALT) : null;
@@ -481,11 +466,11 @@ class WP_Redis_Object_Cache
     {
         $derived_key = $this->build_key($key, $group);
 
-        if (isset($this->cache[ $derived_key ]) && ! $force) {
+        if (isset($this->cache[$derived_key]) && ! $force) {
             $found = true;
             $this->cache_hits++;
 
-            return is_object($this->cache[ $derived_key ]) ? clone $this->cache[ $derived_key ] : $this->cache[ $derived_key ];
+            return is_object($this->cache[$derived_key]) ? clone $this->cache[$derived_key] : $this->cache[$derived_key];
         } elseif (in_array($group, $this->ignored_groups) || ! $this->redis_status()) {
             $found = false;
             $this->cache_misses++;
@@ -542,16 +527,16 @@ class WP_Redis_Object_Cache
         }
 
         // Retrieve requested caches and reformat results to mimic Memcached Object Cache's output
-        $cache = array();
+        $cache = [];
 
         foreach ($groups as $group => $keys) {
             if (in_array($group, $this->ignored_groups) || ! $this->redis_status()) {
                 foreach ($keys as $key) {
-                    $cache[ $this->build_key($key, $group) ] = $this->get($key, $group);
+                    $cache[$this->build_key($key, $group)] = $this->get($key, $group);
                 }
             } else {
                 // Reformat arguments as expected by Redis
-                $derived_keys = array();
+                $derived_keys = [];
 
                 foreach ($keys as $key) {
                     $derived_keys[] = $this->build_key($key, $group);
@@ -564,10 +549,10 @@ class WP_Redis_Object_Cache
                 $group_cache = array_combine($derived_keys, $group_cache);
 
                 // Restores cached data to its original data type
-                $group_cache = array_map(array( $this, 'maybe_unserialize' ), $group_cache);
+                $group_cache = array_map([$this, 'maybe_unserialize'], $group_cache);
 
                 // Redis returns null for values not found in cache, but expected return value is false in this instance
-                $group_cache = array_map(array( $this, 'filter_redis_get_multi' ), $group_cache);
+                $group_cache = array_map([$this, 'filter_redis_get_multi'], $group_cache);
 
                 $cache = array_merge($cache, $group_cache);
             }
@@ -790,7 +775,7 @@ class WP_Redis_Object_Cache
      */
     public function add_to_internal_cache($derived_key, $value)
     {
-        $this->cache[ $derived_key ] = $value;
+        $this->cache[$derived_key] = $value;
     }
 
     /**
@@ -805,8 +790,8 @@ class WP_Redis_Object_Cache
     {
         $derived_key = $this->build_key($key, $group);
 
-        if (isset($this->cache[ $derived_key ])) {
-            return $this->cache[ $derived_key ];
+        if (isset($this->cache[$derived_key])) {
+            return $this->cache[$derived_key];
         }
 
         return false;

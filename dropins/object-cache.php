@@ -182,6 +182,8 @@ if (( ! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED )
      * @since 2.0.0
      *
      * @global WP_Object_Cache $wp_object_cache
+     *
+     * @throws Exception
      */
     function wp_cache_init()
     {

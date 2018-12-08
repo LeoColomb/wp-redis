@@ -1,6 +1,6 @@
 # Redis Object Cache for WordPress
 
-A persistent object cache backend powered by Redis. Supports [Predis](https://github.com/nrk/predis/), [PhpRedis (PECL)](https://github.com/phpredis/phpredis), [HHVM](https://github.com/facebook/hhvm/tree/master/hphp/system/php/redis), replication, clustering and [WP-CLI](http://wp-cli.org/).
+A persistent object cache backend powered by Redis. Supports [Predis](https://github.com/nrk/predis/), [PhpRedis (PECL)](https://github.com/phpredis/phpredis), replication, clustering and [WP-CLI](http://wp-cli.org/).
 
 Forked from 
 * Eric Mann's and Erick Hitter's [Redis Object Cache](https://github.com/ericmann/Redis-Object-Cache).
@@ -22,7 +22,7 @@ To adjust the connection parameters, define any of the following constants in yo
 
 * `WP_REDIS_CLIENT` (default: _not set_)
 
-  Specifies the client used to communicate with Redis. Supports `hhvm`, `pecl` and `predis`.
+  Specifies the client used to communicate with Redis. Supports `pecl` and `predis`.
 
 * `WP_REDIS_SCHEME` (default: `tcp`)
 
@@ -68,6 +68,10 @@ To adjust the configuration, define any of the following constants in your `wp-c
 * `WP_REDIS_IGNORED_GROUPS` (default: `['counts', 'plugins']`)
 
   Set the cache groups that should not be cached in Redis.
+
+* `WP_REDIS_IGBINARY` (default: _not set_)
+
+  Set to `true` to enable the [igbinary](https://github.com/igbinary/igbinary) serializer.
 
 
 ## Replication & Clustering
