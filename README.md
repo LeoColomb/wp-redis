@@ -1,8 +1,19 @@
-# Redis Object Cache for WordPress
+# Redis Cache for WordPress
 
-> A persistent object cache backend powered by Redis. Supports [Predis](https://github.com/nrk/predis/), [PhpRedis (PECL)](https://github.com/phpredis/phpredis), replication, clustering and [WP-CLI](http://wp-cli.org/).
+> A persistent cache backend powered by Redis.  
 
 [![Build Status](https://travis-ci.com/LeoColomb/wp-redis.svg?branch=master)](https://travis-ci.com/LeoColomb/wp-redis)
+
+## Features
+
+* Enable the two cache wrappers for WordPress
+  * Object cache
+  * Page cache
+* Adds handy [WP-CLI](http://wp-cli.org/) commands
+* Supports major PHP Redis drivers 
+  * [Predis](https://github.com/nrk/predis/)
+  * [PhpRedis (PECL)](https://github.com/phpredis/phpredis)
+* Supports replication and clustering
 
 
 ## Installation
@@ -13,7 +24,8 @@
     "extra": {
       "dropin-paths": {
         "web/app/": [
-          "package:leocolomb/wp-redis:dropins/object-cache.php"
+          "package:leocolomb/wp-redis:dropins/object-cache.php",
+          "package:leocolomb/wp-redis:dropins/page-cache.php"
         ]
       }
     }
@@ -43,7 +55,6 @@ Constant name|Default value|Description
 `WP_REDIS_DATABASE`|`0`|Accepts a numeric value that is used to automatically select a logical database with the `SELECT` command.
 `WP_REDIS_PASSWORD`|_not set_|Accepts a value used to authenticate with a Redis server protected by password with the `AUTH` command.
 
-
 ### Parameters
 
 Constant name|Default value|Description
@@ -54,6 +65,21 @@ Constant name|Default value|Description
 `WP_REDIS_IGNORED_GROUPS`|`['counts', 'plugins']`|Set the cache groups that should not be cached in Redis.
 `WP_REDIS_IGBINARY`|_not set_|Set to `true` to enable the [igbinary](https://github.com/igbinary/igbinary) serializer.
 
+### Page cache
+
+Constant name|Default value|Description
+--|--|--
+`WP_CACHE`|`false`|Set to `true` to enable advanced page caching. If not set, the Redis page cache will not be used.
+`WP_REDIS_TIMES`|`2`|Only cache a page after it is accessed this many times.
+`WP_REDIS_SECONDS`|`120`|Only cache a page if it is accessed `$times` in this many seconds. Set to zero to ignore this and use cache immediately.
+`WP_REDIS_MAXAGE`|`300`|Expire cache items aged this many seconds. Set to zero to disable cache.
+`WP_REDIS_GROUP`|`'redis-cache'`|Name of object cache group used for page cache.
+`WP_REDIS_UNIQUE`|`[]`|If you conditionally serve different content, put the variable values here using the `add_variant()` method.
+`WP_REDIS_HEADERS`|`[]`|Add headers here as `name => value` or `name => [values]`. These will be sent with every response from the cache.
+`WP_REDIS_UNCACHED_HEADERS`|`['transfer-encoding']`|These headers will never be cached. (Use lower case only!)
+`WP_REDIS_CACHE_CONTROL`|`true`|Set to `false` to disable `Last-Modified` and `Cache-Control` headers.
+`WP_REDIS_USE_STALE`|`true`|Is it ok to return stale cached response when updating the cache?
+`WP_REDIS_NOSKIP_COOKIES`|`['wordpress_test_cookie']`|Names of cookies - if they exist and the cache would normally be bypassed, don't bypass it.
 
 ## Replication & Clustering
 

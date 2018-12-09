@@ -134,15 +134,24 @@ class WP_Redis_Object_Cache
         $parameters = [
             'scheme' => 'tcp',
             'host' => '127.0.0.1',
-            'port' => 6379
+            'port' => 6379,
+            'client' => 'pecl'
         ];
 
-        foreach (['scheme', 'host', 'port', 'path', 'password', 'database'] as $setting) {
+        array_map(function ($setting) {
             $constant = sprintf('WP_REDIS_%s', strtoupper($setting));
             if (defined($constant)) {
                 $parameters[$setting] = constant($constant);
             }
-        }
+        }, [
+            'scheme',
+            'host',
+            'port',
+            'path',
+            'password',
+            'database',
+            'client'
+        ]);
 
         if (defined('WP_REDIS_GLOBAL_GROUPS') && is_array(WP_REDIS_GLOBAL_GROUPS)) {
             $this->global_groups = WP_REDIS_GLOBAL_GROUPS;
@@ -152,16 +161,8 @@ class WP_Redis_Object_Cache
             $this->ignored_groups = WP_REDIS_IGNORED_GROUPS;
         }
 
-        $client = defined('WP_REDIS_CLIENT') ? WP_REDIS_CLIENT : null;
-
-        if (class_exists('Redis') && strcasecmp('predis', $client) !== 0) {
-            $client = 'pecl';
-        } else {
-            $client = 'predis';
-        }
-
         try {
-            if (strcasecmp('pecl', $client) === 0) {
+            if (class_exists('Redis') && strcasecmp('pecl', $parameters['client']) === 0) {
                 $this->redis_client = sprintf('PhpRedis (v%s)', phpversion('redis'));
 
                 if (defined('WP_REDIS_SHARDS')) {
@@ -187,12 +188,12 @@ class WP_Redis_Object_Cache
                 }
             }
 
-            if (strcasecmp('predis', $client) === 0) {
+            if (strcasecmp('predis', $parameters['client']) === 0) {
                 $this->redis_client = 'Predis';
 
                 // Require PHP 5.6 or greater
                 if (version_compare(PHP_VERSION, '5.6.0', '<')) {
-                    throw new Exception;
+                    throw new Exception();
                 }
 
                 // Load bundled Predis library
@@ -205,13 +206,13 @@ class WP_Redis_Object_Cache
 
                 if (defined('WP_REDIS_SHARDS')) {
                     $parameters = WP_REDIS_SHARDS;
-                } elseif (defined('WP_REDIS_SENTINEL')) {
-                    $parameters = WP_REDIS_SERVERS;
-                    $options['replication'] = 'sentinel';
-                    $options['service'] = WP_REDIS_SENTINEL;
                 } elseif (defined('WP_REDIS_SERVERS')) {
                     $parameters = WP_REDIS_SERVERS;
                     $options['replication'] = true;
+                    if (defined('WP_REDIS_SENTINEL')) {
+                        $options['replication'] = 'sentinel';
+                        $options['service'] = WP_REDIS_SENTINEL;
+                    }
                 } elseif (defined('WP_REDIS_CLUSTER')) {
                     $parameters = WP_REDIS_CLUSTER;
                     $options['cluster'] = 'redis';

@@ -1,6 +1,6 @@
 <?php
 
-class WP_Redis_Object_Cache_CLI_Commands extends WP_CLI_Command
+class WP_Redis_CLI_Commands extends WP_CLI_Command
 {
 
     /**
