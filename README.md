@@ -25,7 +25,7 @@
       "dropin-paths": {
         "web/app/": [
           "package:leocolomb/wp-redis:dropins/object-cache.php",
-          "package:leocolomb/wp-redis:dropins/page-cache.php"
+          "package:leocolomb/wp-redis:dropins/advanced-cache.php"
         ]
       }
     }
