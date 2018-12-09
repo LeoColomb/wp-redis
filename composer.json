@@ -1,7 +1,6 @@
 {
     "name": "leocolomb/wp-redis",
     "description": "A persistent cache backend for WordPress powered by Redis.",
-    "type": "wordpress-dropins",
     "homepage": "https://github.com/LeoColomb/wp-redis",
     "license": "GPL-3.0+",
     "authors": [
