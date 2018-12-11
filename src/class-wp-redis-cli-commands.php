@@ -2,9 +2,8 @@
 
 class WP_Redis_CLI_Commands extends WP_CLI_Command
 {
-
     /**
-     * Show the Redis object cache status and (when possible) client.
+     * Show the Redis cache status and (when possible) client.
      *
      * ## EXAMPLES
      *
@@ -12,28 +11,35 @@ class WP_Redis_CLI_Commands extends WP_CLI_Command
      */
     public function status()
     {
-
         $plugin = $GLOBALS['wp_object_cache'];
-        $status = $plugin->get_status();
         $client = $plugin->get_redis_client_name();
 
-
-        switch ($status) {
-            case __('Disabled', 'redis-cache'):
-                $status = WP_CLI::colorize("%y{$status}%n");
-                break;
-            case __('Connected', 'redis-cache'):
-                $status = WP_CLI::colorize("%g{$status}%n");
-                break;
-            case __('Not Connected', 'redis-cache'):
-                $status = WP_CLI::colorize("%r{$status}%n");
-                break;
+        if (! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED) {
+            WP_CLI::line('Status: ' . WP_CLI::colorize('%yDisabled%n'));
+            return;
         }
-
-        WP_CLI::line("Status: $status");
-
+        
+        if (! ) {
+            WP_CLI::line('Status: ' . WP_CLI::colorize('%rNot Connected%n'));
+            return;
+        }
+        
+        WP_CLI::line('Status: ' . WP_CLI::colorize('%gConnected%n'));
         if (! is_null($client)) {
             WP_CLI::line("Client: $client");
         }
+    }
+    
+    /**
+     * Flush the Redis object cache, clear all data.
+     *
+     * ## EXAMPLES
+     *
+     *     wp redis flush
+     */
+    public function flush()
+    {
+        $plugin = $GLOBALS['wp_object_cache'];
+        $plugin->flush();
     }
 }
