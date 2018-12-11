@@ -288,4 +288,8 @@ if ((! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED)
         $wp_object_cache->add_non_persistent_groups($groups);
     }
 
+    if (defined('WP_CLI') && WP_CLI) {
+        \WP_CLI::add_command('redis', WP_Redis_CLI_Commands::class);
+    }
+
 endif;
