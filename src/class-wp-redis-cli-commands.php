@@ -38,7 +38,7 @@ class WP_Redis_CLI_Commands extends WP_CLI_Command
      *     wp redis flush
      */
     public function flush()
-    { 
+    {
         if (defined('WP_REDIS_DISABLED') && WP_REDIS_DISABLED) {
             WP_CLI::error('Redis disabled!');
             return;
