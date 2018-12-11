@@ -19,13 +19,13 @@ class WP_Redis_CLI_Commands extends WP_CLI_Command
             return;
         }
         
-        if (! ) {
+        if (! $plugin->redis_status()) {
             WP_CLI::line('Status: ' . WP_CLI::colorize('%rNot Connected%n'));
             return;
         }
         
         WP_CLI::line('Status: ' . WP_CLI::colorize('%gConnected%n'));
-        if (! is_null($client)) {
+        if (! is_null($client = $plugin->redis_instance())) {
             WP_CLI::line("Client: $client");
         }
     }
