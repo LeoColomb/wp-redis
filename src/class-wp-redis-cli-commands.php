@@ -14,7 +14,7 @@ class WP_Redis_CLI_Commands extends WP_CLI_Command
         $plugin = $GLOBALS['wp_object_cache'];
         $client = $plugin->get_redis_client_name();
 
-        if (! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED) {
+        if (defined('WP_REDIS_DISABLED') && WP_REDIS_DISABLED) {
             WP_CLI::line('Status: ' . WP_CLI::colorize('%yDisabled%n'));
             return;
         }
@@ -38,7 +38,12 @@ class WP_Redis_CLI_Commands extends WP_CLI_Command
      *     wp redis flush
      */
     public function flush()
-    {
+    { 
+        if (defined('WP_REDIS_DISABLED') && WP_REDIS_DISABLED) {
+            WP_CLI::error('Redis disabled!');
+            return;
+        }
+        
         $plugin = $GLOBALS['wp_object_cache'];
         $plugin->flush();
     }
