@@ -9,7 +9,7 @@
 * Enable the two cache wrappers for WordPress
   * Object cache
   * Page cache
-* Adds handy [WP-CLI](http://wp-cli.org/) commands
+* Adds handy [WP-CLI](https://wp-cli.org/) commands
 * Supports major PHP Redis drivers 
   * [Predis](https://github.com/nrk/predis/)
   * [PhpRedis (PECL)](https://github.com/phpredis/phpredis)
