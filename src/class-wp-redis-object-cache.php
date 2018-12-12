@@ -696,7 +696,8 @@ class WP_Redis_Object_Cache
      *
      * @return mixed The value returned from $callback, pulled from the cache when available.
      */
-    public function remember($key, $callback, $group = '', $expire = 0) {
+    public function remember($key, $callback, $group = '', $expire = 0)
+    {
         $found  = false;
         $cached = $this->get($key, $group, false, $found);
         
@@ -723,7 +724,8 @@ class WP_Redis_Object_Cache
      *
      * @return mixed The cached value, when available, or $default.
      */
-    public function forget($key, $group = '', $default = null) {
+    public function forget($key, $group = '', $default = null)
+    {
         $found  = false;
         $cached = $this->get($key, $group, false, $found);
         
