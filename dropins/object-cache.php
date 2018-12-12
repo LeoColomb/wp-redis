@@ -287,6 +287,42 @@ if ((! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED)
 
         $wp_object_cache->add_non_persistent_groups($groups);
     }
+
+    /**
+     * Retrieve a value from the object cache. If it doesn't exist, run the $callback to generate and
+     * cache the value.
+     *
+     * @param string   $key      The cache key.
+     * @param callable $callback The callback used to generate and cache the value.
+     * @param string   $group    Optional. The cache group. Default is empty.
+     * @param int      $expire   Optional. The number of seconds before the cache entry should expire.
+     *                           Default is 0 (as long as possible).
+     *
+     * @return mixed The value returned from $callback, pulled from the cache when available.
+     */
+    function wp_cache_remember($key, $callback, $group = '', $expire = 0)
+    {
+        global $wp_object_cache;
+
+        return $wp_object_cache->remember($key, $callback, $group, (int) $expire);
+    }
+
+    /**
+     * Retrieve and subsequently delete a value from the object cache.
+     *
+     * @param string $key     The cache key.
+     * @param string $group   Optional. The cache group. Default is empty.
+     * @param mixed  $default Optional. The default value to return if the given key doesn't
+     *                        exist in the object cache. Default is null.
+     *
+     * @return mixed The cached value, when available, or $default.
+     */
+    function wp_cache_forget($key, $group = '', $default = null)
+    {
+        global $wp_object_cache;
+
+        return $wp_object_cache->forget($key, $group, $default);
+    }
 endif;
 
 if (defined('WP_CLI') && WP_CLI && class_exists('WP_Redis_CLI_Commands')) {
