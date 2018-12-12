@@ -683,6 +683,58 @@ class WP_Redis_Object_Cache
 
         return $result;
     }
+    
+    /**
+     * Retrieve a value from the object cache. If it doesn't exist, run the $callback to generate and
+     * cache the value.
+     *
+     * @param string   $key      The cache key.
+     * @param callable $callback The callback used to generate and cache the value.
+     * @param string   $group    Optional. The cache group. Default is empty.
+     * @param int      $expire   Optional. The number of seconds before the cache entry should expire.
+     *                           Default is 0 (as long as possible).
+     *
+     * @return mixed The value returned from $callback, pulled from the cache when available.
+     */
+    public function remember($key, $callback, $group = '', $expire = 0) {
+        $found  = false;
+        $cached = $this->get($key, $group, false, $found);
+        
+        if (false !== $found) {
+            return $cached;
+        }
+        
+        $value = $callback();
+        
+        if (! is_wp_error($value)) {
+            $this->set($key, $value, $group, $expire);
+        }
+        
+        return $value;
+    }
+
+    /**
+     * Retrieve and subsequently delete a value from the object cache.
+     *
+     * @param string $key     The cache key.
+     * @param string $group   Optional. The cache group. Default is empty.
+     * @param mixed  $default Optional. The default value to return if the given key doesn't
+     *                        exist in the object cache. Default is null.
+     *
+     * @return mixed The cached value, when available, or $default.
+     */
+    public function forget($key, $group = '', $default = null) {
+        $found  = false;
+        $cached = $this->get($key, $group, false, $found);
+        
+        if (false !== $found) {
+            $this->delete($key, $group);
+            
+            return $cached;
+        }
+        
+        return $default;
+    }
 
     /**
      * Echoes the stats of the caching.
