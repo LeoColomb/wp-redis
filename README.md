@@ -3,27 +3,31 @@
 > A persistent cache backend powered by Redis.  
 
 [![Build Status](https://travis-ci.com/LeoColomb/wp-redis.svg?branch=master)](https://travis-ci.com/LeoColomb/wp-redis)
+[![Packagist](https://img.shields.io/packagist/v/LeoColomb/wp-redis.svg)](https://packagist.org/packages/LeoColomb/wp-redis)
 
 ## Features
 
-* Enable the two cache wrappers for WordPress
-  * Object cache
-  * Page cache
+* Enables the two cache wrappers for WordPress
+  * Object Cache ([`object-cache.php`](dropins/object-cache.php))
+  * Advanced Page Cache ([`advanced-cache.php`](dropins/advanced-cache.php))
 * Adds handy [WP-CLI](https://wp-cli.org/) commands
+  * `wp redis status`: Show the Redis cache status and (when possible) client.
+  * `wp redis flush`: Flush the Redis cache, clear all data.
 * Supports major PHP Redis drivers 
   * [Predis](https://github.com/nrk/predis/)
   * [PhpRedis (PECL)](https://github.com/phpredis/phpredis)
 * Supports replication and clustering
+* Targets modern software stacks
 
 
 ## Installation
 
-* Prepare your Composer file
+* Prepare your Composer file by adding custom paths ([more info](https://github.com/Koodimonni/Composer-Dropin-Installer#readme))
   ```json
   {
     "extra": {
       "dropin-paths": {
-        "web/app/": [
+        "htdocs/wp-content/": [
           "package:leocolomb/wp-redis:dropins/object-cache.php",
           "package:leocolomb/wp-redis:dropins/advanced-cache.php"
         ]
@@ -36,6 +40,7 @@
   ```bash
   $ composer require leocolomb/wp-redis
   ```
+
 
 ## Configuration
 
@@ -106,6 +111,7 @@ define('WP_REDIS_CLUSTER', [
     'tcp://127.0.0.2:6379?database=15&alias=node-02',
 ]);
 ```
+
 
 ## License
 
