@@ -230,8 +230,10 @@ class WP_Redis_Object_Cache
                 $this->redis_client .= sprintf(' (v%s)', Predis\Client::VERSION);
             }
 
-            // Throws exception if Redis is unavailable
-            $this->redis->ping();
+            if (! defined('WP_REDIS_CLUSTER')) {
+                // Throws exception if Redis is unavailable
+                $this->redis->ping();
+            }
 
             $this->redis_connected = true;
         } catch (Exception $exception) {
