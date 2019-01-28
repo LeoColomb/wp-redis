@@ -1,5 +1,13 @@
 <?php
 
+/**
+ * Redis cache commands.
+ *
+ * ## EXAMPLES
+ *
+ *     # Print Redis cache status.
+ *     $ wp redis status
+ */
 class WP_Redis_CLI_Commands extends WP_CLI_Command
 {
     /**
