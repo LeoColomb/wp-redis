@@ -1,6 +1,15 @@
 {
     "name": "leocolomb/wp-redis",
     "description": "A persistent cache backend for WordPress powered by Redis.",
+    "keywords": [
+        "wordpress-dropin",
+        "wordpress-cache",
+        "cache-object",
+        "cache-page",
+        "cache-advanced",
+        "redis",
+        "wordpress"
+    ],
     "homepage": "https://github.com/LeoColomb/wp-redis",
     "license": "GPL-3.0+",
     "authors": [
@@ -13,23 +22,6 @@
             "homepage": "https://colombaro.fr/"
         }
     ],
-    "keywords": [
-        "wordpress-dropin",
-        "wordpress-cache",
-        "cache-object",
-        "cache-page",
-        "cache-advanced",
-        "redis",
-        "wordpress"
-    ],
-    "support": {
-        "issues": "https://github.com/LeoColomb/wp-redis/issues"
-    },
-    "autoload": {
-        "classmap": [
-            "src/"
-        ]
-    },
     "require": {
         "php": ">=7.1",
         "composer/installers": "^1.0",
@@ -38,13 +30,21 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.3"
     },
+    "suggest": {
+        "ext-redis": "Using a native-Redis interface",
+        "predis/predis": "Using a PHP-Redis interface"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ]
+    },
     "scripts": {
         "test": [
             "phpcs"
         ]
     },
-    "suggest": {
-        "predis/predis": "Using a PHP-Redis interface",
-        "ext-redis": "Using a native-Redis interface"
+    "support": {
+        "issues": "https://github.com/LeoColomb/wp-redis/issues"
     }
 }
