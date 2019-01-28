@@ -239,7 +239,7 @@ class WP_Redis_Page_Cache
 
     public function cache_status_header($cache_status)
     {
-        header(self::CACHE_STATUS_HEADER_NAME.": $cache_status");
+        header(self::CACHE_STATUS_HEADER_NAME . ": $cache_status");
     }
 
     /**
