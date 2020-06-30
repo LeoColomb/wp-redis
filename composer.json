@@ -40,7 +40,7 @@
         ]
     },
     "scripts": {
-        "test": [
+        "lint": [
             "phpcs"
         ]
     },

@@ -1,23 +1,52 @@
-name: Test
+name: PHP CI
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
 
 jobs:
-  ci:
+  test:
     name: PHP ${{ matrix.php_version }}
     runs-on: ubuntu-latest
+
     strategy:
+      fail-fast: false
       matrix:
-        php_version: [7.2, 7.3]
+        php_version: [7.3, 7.4]
+
     steps:
-      - uses: actions/checkout@v2.3.1
+      - uses: actions/checkout@v2
+
       - name: Use PHP ${{ matrix.php_version }}
-        uses: shivammathur/setup-php@2.3.1
+        uses: shivammathur/setup-php@2.2.2
         with:
           php-version: ${{ matrix.php_version }}
-      - name: Install
-        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+#          extension-csv: xdebug, mbstring, curl, zip, dom, simplexml, intl, mysql
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-suggest
         env:
           APP_ENV: testing
-      - name: Test
-        run: composer run test
+
+      - name: Lint
+        run: composer run-script lint
+
+#     - name: Test
+#       run: composer run-script test
+#       env:
+#         DB_PORT: ${{ job.services.mysql.ports['3306'] }}
