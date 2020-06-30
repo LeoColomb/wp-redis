@@ -1,6 +1,7 @@
 <?php
 
-if ((! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED)
+if (
+    (! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED)
     && class_exists('WP_Redis_Page_Cache')
 ) :
 
@@ -12,10 +13,12 @@ if ((! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED)
     $redis_cache->cache_status_header($redis_cache::CACHE_STATUS_MISS);
 
     // Don't cache interactive scripts or API endpoints
-    if (in_array(basename($_SERVER['SCRIPT_FILENAME']), [
-        'wp-cron.php',
-        'xmlrpc.php',
-    ])) {
+    if (
+        in_array(basename($_SERVER['SCRIPT_FILENAME']), [
+            'wp-cron.php',
+            'xmlrpc.php',
+        ])
+    ) {
         $redis_cache->cache_status_header($redis_cache::CACHE_STATUS_BYPASS);
 
         return;
@@ -42,7 +45,8 @@ if ((! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED)
                 continue;
             }
 
-            if (strpos($cookie, 'wp') === 0 ||
+            if (
+                strpos($cookie, 'wp') === 0 ||
                 strpos($cookie, 'wordpress') === 0 ||
                 strpos($cookie, 'comment_author') === 0
             ) {
@@ -136,14 +140,16 @@ if ((! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED)
         $genlock = wp_cache_add("{$redis_cache->url_key}_genlock", 1, $redis_cache->group, 10);
     }
 
-    if ($serve_cache &&
+    if (
+        $serve_cache &&
         isset($cache['time'], $cache['max_age']) &&
         time() < $cache['time'] + $cache['max_age']
     ) {
         // Respect ETags
         $three04 = false;
 
-        if (isset($_SERVER['HTTP_IF_NONE_MATCH'], $cache['headers']['ETag'][0]) &&
+        if (
+            isset($_SERVER['HTTP_IF_NONE_MATCH'], $cache['headers']['ETag'][0]) &&
             $_SERVER['HTTP_IF_NONE_MATCH'] == $cache['headers']['ETag'][0]
         ) {
             $three04 = true;

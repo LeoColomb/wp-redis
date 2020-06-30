@@ -1,6 +1,7 @@
 <?php
 
-if ((! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED)
+if (
+    (! defined('WP_REDIS_DISABLED') || ! WP_REDIS_DISABLED)
     && class_exists('WP_Redis_Object_Cache')
 ) :
 
