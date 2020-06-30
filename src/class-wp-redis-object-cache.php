@@ -43,7 +43,7 @@ class WP_Redis_Object_Cache
     /**
      * Name of the used Redis client
      *
-     * @var bool
+     * @var string|null
      */
     public $redis_client = null;
 
@@ -135,6 +135,7 @@ class WP_Redis_Object_Cache
             'scheme' => 'tcp',
             'host' => '127.0.0.1',
             'port' => 6379,
+            'path' => '/var/run/redis/redis.sock',
             'client' => 'pecl'
         ];
 
