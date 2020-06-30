@@ -203,7 +203,7 @@ class WP_Redis_Page_Cache
      * This function is called without arguments early in the page load,
      * then with arguments during the output buffer handler.
      *
-     * @param  boolean $dimensions
+     * @param  array|false  $dimensions
      */
     public function do_variants($dimensions = false)
     {
