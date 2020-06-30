@@ -1,0 +1,23 @@
+name: Test
+
+on: [push]
+
+jobs:
+  ci:
+    name: PHP ${{ matrix.php_version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php_version: [7.2, 7.3]
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - name: Use PHP ${{ matrix.php_version }}
+        uses: shivammathur/setup-php@2.3.1
+        with:
+          php-version: ${{ matrix.php_version }}
+      - name: Install
+        run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+        env:
+          APP_ENV: testing
+      - name: Test
+        run: composer run test
