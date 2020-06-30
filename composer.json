@@ -11,7 +11,7 @@
         "wordpress"
     ],
     "homepage": "https://github.com/LeoColomb/wp-redis",
-    "license": "GPL-3.0+",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Till Krüss",
