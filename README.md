@@ -2,7 +2,7 @@
 
 > A persistent cache backend powered by Redis.  
 
-[![Test](https://github.com/LeoColomb/wp-redis/workflows/Test/badge.svg)](https://github.com/LeoColomb/wp-redis/actions?query=workflow%3ATest)
+[![Build Status](https://github.com/LeoColomb/wp-redis/workflows/PHP%20CI/badge.svg)](https://github.com/LeoColomb/wp-redis/actions?query=workflow%3APHP%20CI)
 [![Packagist](https://img.shields.io/packagist/v/LeoColomb/wp-redis.svg)](https://packagist.org/packages/LeoColomb/wp-redis)
 
 ## Features
