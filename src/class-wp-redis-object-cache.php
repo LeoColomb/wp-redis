@@ -686,7 +686,7 @@ class WP_Redis_Object_Cache
 
         return $result;
     }
-    
+
     /**
      * Retrieve a value from the object cache. If it doesn't exist, run the $callback to generate and
      * cache the value.
@@ -703,17 +703,17 @@ class WP_Redis_Object_Cache
     {
         $found  = false;
         $cached = $this->get($key, $group, false, $found);
-        
+
         if (false !== $found) {
             return $cached;
         }
-        
+
         $value = $callback();
-        
+
         if (! is_wp_error($value)) {
             $this->set($key, $value, $group, $expire);
         }
-        
+
         return $value;
     }
 
@@ -731,13 +731,13 @@ class WP_Redis_Object_Cache
     {
         $found  = false;
         $cached = $this->get($key, $group, false, $found);
-        
+
         if (false !== $found) {
             $this->delete($key, $group);
-            
+
             return $cached;
         }
-        
+
         return $default;
     }
 
@@ -1023,7 +1023,7 @@ class WP_Redis_Object_Cache
                 } elseif (false === strpos($data, '"')) {
                     return false;
                 }
-                // or else fall through
+            // or else fall through
             case 'a':
             case 'O':
                 return (bool) preg_match("/^{$token}:\d+:/s", $data);
