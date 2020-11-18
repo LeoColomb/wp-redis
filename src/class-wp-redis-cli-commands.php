@@ -26,18 +26,18 @@ class WP_Redis_CLI_Commands extends WP_CLI_Command
             WP_CLI::line('Status: ' . WP_CLI::colorize('%yDisabled%n'));
             return;
         }
-        
+
         if (! $plugin->redis_status()) {
             WP_CLI::line('Status: ' . WP_CLI::colorize('%rNot Connected%n'));
             return;
         }
-        
+
         WP_CLI::line('Status: ' . WP_CLI::colorize('%gConnected%n'));
         if (! is_null($client = $plugin->redis_instance())) {
             WP_CLI::line("Client: $client");
         }
     }
-    
+
     /**
      * Flush the Redis object cache, clear all data.
      *
@@ -51,7 +51,7 @@ class WP_Redis_CLI_Commands extends WP_CLI_Command
             WP_CLI::error('Redis disabled!');
             return;
         }
-        
+
         $plugin = $GLOBALS['wp_object_cache'];
         $plugin->flush();
     }
