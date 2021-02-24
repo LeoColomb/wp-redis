@@ -20,7 +20,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Use PHP ${{ matrix.php_version }}
-        uses: shivammathur/setup-php@2.9.0
+        uses: shivammathur/setup-php@2.10.0
         with:
           php-version: ${{ matrix.php_version }}
 #          extension-csv: xdebug, mbstring, curl, zip, dom, simplexml, intl, mysql
