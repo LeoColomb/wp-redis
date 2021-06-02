@@ -139,7 +139,7 @@ class WP_Redis_Object_Cache
             'client' => 'pecl'
         ];
 
-        array_map(function ($setting) {
+        array_map(function ($setting) use(&$parameters){
             $constant = sprintf('WP_REDIS_%s', strtoupper($setting));
             if (defined($constant)) {
                 $parameters[$setting] = constant($constant);
