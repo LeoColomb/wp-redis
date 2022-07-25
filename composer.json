@@ -24,7 +24,6 @@
     ],
     "require": {
         "php": ">=7.1",
-        "composer/installers": "^1.0",
         "koodimonni/composer-dropin-installer": "^1.2"
     },
     "require-dev": {
