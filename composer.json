@@ -43,6 +43,11 @@
             "phpcs"
         ]
     },
+    "config": {
+        "allow-plugins": {
+            "koodimonni/composer-dropin-installer": true
+        }
+    },
     "support": {
         "issues": "https://github.com/LeoColomb/wp-redis/issues"
     }
