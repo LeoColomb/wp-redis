@@ -5,7 +5,6 @@
  */
 class WP_Redis_Page_Cache
 {
-
     const CACHE_STATUS_HEADER_NAME = 'X-Redis-Cache-Status';
     const CACHE_STATUS_HIT = 'HIT';
     const CACHE_STATUS_MISS = 'MISS';
