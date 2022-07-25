@@ -17,7 +17,6 @@
  */
 class WP_Redis_Object_Cache
 {
-
     /**
      * The Redis client.
      *
