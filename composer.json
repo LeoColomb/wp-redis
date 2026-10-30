@@ -27,7 +27,7 @@
         "koodimonni/composer-dropin-installer": "^1.2"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.3"
+        "squizlabs/php_codesniffer": "^4.0"
     },
     "suggest": {
         "ext-redis": "Using a native-Redis interface",
